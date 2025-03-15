@@ -4,6 +4,10 @@
 
 A mobile launcher that allows online play in GTA SA (SA-MP). It can download game resources, server monitoring, client updates, news feed, complete launcher customization, and display of donations."
 
+## Not for developers
+
+I do not assist with launcher assembly. If you have knowledge of React Native, you will be able to build and run the launcher yourself. If you lack the necessary knowledge, I can create a custom launcher for you and, if needed, assist with publishing it on the Play Market. My price ranges from $1000 to $4500. If you are not ready to pay, please do not contact me.
+
 ## Screenshots
 
 <p align="center">
