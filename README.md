@@ -1,6 +1,6 @@
 <p align="center"><img src="https://github.com/penteleichuk/Samp-Launcer/blob/main/assets/images/logo.png" width="150" alt="Samp launcer Logo"></p>
 
-## About Samp Launcer
+## About Samp Mobile Launcer
 
 A mobile launcher that allows online play in GTA SA (SA-MP). It can download game resources, server monitoring, client updates, news feed, complete launcher customization, and display of donations."
 
