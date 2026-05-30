@@ -1,5 +1,6 @@
 import { PACKAGE_NAME } from '@env';
-import RNFS, { moveFile } from 'react-native-fs';
+import * as RNFS from 'react-native-fs';
+import { unzip } from 'react-native-zip-archive';
 
 export const FileDownload = {
   download: async (props: DownloadFileType) => {
@@ -15,6 +16,31 @@ export const FileDownload = {
       progress: progress,
       progressInterval: 800,
     }).promise;
+  },
+};
+
+export const FileArchive = {
+  downloadAndExtract: async (props: ArchiveDownloadFileType) => {
+    const { fromUrl, zipName = 'cache.zip' } = props;
+    const toPatch = FilePath.getPathDirCache();
+    const zipPath = `${RNFS.ExternalDirectoryPath}/${zipName}`;
+
+    if (await RNFS.exists(zipPath)) {
+      await RNFS.unlink(zipPath).catch(() => {});
+    }
+
+    const result = await RNFS.downloadFile({
+      fromUrl,
+      toFile: zipPath,
+    }).promise;
+
+    if (result.statusCode !== 200) {
+      throw new Error(`Archive download failed with code ${result.statusCode}`);
+    }
+
+    await unzip(zipPath, toPatch);
+    await RNFS.unlink(zipPath).catch(() => {});
+    return true;
   },
 };
 
@@ -136,18 +162,18 @@ export const FileName = {
     if (!currentExists) {
       needDownload[mode] = 1;
     } else {
-      await moveFile(filepath, reserveFilepath);
+      await RNFS.moveFile(filepath, reserveFilepath);
     }
 
     const destExists = await RNFS.exists(destPath);
     if (!destExists) {
       needDownload[mode] = 1;
     } else {
-      await moveFile(destPath, filepath);
+      await RNFS.moveFile(destPath, filepath);
     }
 
     if (currentExists) {
-      await moveFile(reserveFilepath, destPath);
+      await RNFS.moveFile(reserveFilepath, destPath);
     }
 
     return needDownload;
@@ -164,7 +190,7 @@ export const FileName = {
     }
 
     try {
-      await moveFile(filepath, destPath);
+      await RNFS.moveFile(filepath, destPath);
       return true;
     } catch (e) {
       return false;
@@ -182,7 +208,7 @@ export const FileName = {
     }
 
     try {
-      await moveFile(filepath, destPath);
+      await RNFS.moveFile(filepath, destPath);
       return true;
     } catch (e) {
       return false;
@@ -200,7 +226,7 @@ export const FileName = {
     }
 
     try {
-      await moveFile(filepath, destPath);
+      await RNFS.moveFile(filepath, destPath);
       return true;
     } catch (e) {
       return false;
@@ -213,6 +239,11 @@ type DownloadFileType = {
   toFile: string;
   toName: string;
   progress: (res: DownloadProgressType) => void;
+};
+
+type ArchiveDownloadFileType = {
+  fromUrl: string;
+  zipName?: string;
 };
 
 type IsValidCacheType = {

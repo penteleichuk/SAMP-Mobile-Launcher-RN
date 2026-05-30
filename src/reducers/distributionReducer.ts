@@ -4,6 +4,7 @@ import { DistributionResponse } from '../services/distribution.service';
 const distributionInitState: DistributionResponse = {
   cdnLauncher: '',
   cdnCache: '',
+  cacheArchiveUrl: '',
   cacheMode: [],
   rss: '',
   versionHash: '',

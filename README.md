@@ -36,6 +36,18 @@ I do not assist with launcher assembly. If you have knowledge of React Native, y
 
 It is necessary to collect in the tree all the necessary files to run the client. The file should be uploaded to the server as well as the cache
 
+### Dropbox ZIP cache support
+
+If you want to use a direct Dropbox ZIP for cache, add `cacheArchiveUrl` to your `distribution.json`:
+
+```json
+{
+	"cacheArchiveUrl": "https://www.dropbox.com/s/your-id/cache.zip?dl=1"
+}
+```
+
+The launcher will download the ZIP and extract it into its local cache folder.
+
 ### Installation
 
 Open a Terminal in the project root and run...
