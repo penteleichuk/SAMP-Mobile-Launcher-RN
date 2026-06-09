@@ -1,3 +1,9 @@
+declare module '*.svg' {
+  import { SvgProps } from 'react-native-svg';
+  const content: React.FC<SvgProps>;
+  export default content;
+}
+
 declare module '@env' {
   export const LINK_SITE: string;
   export const LINK_VK: string;
@@ -13,4 +19,14 @@ declare module '@env' {
   export const PACKAGE_NAME: string;
   export const PROJECT_NAME: string;
   export const APP_VERSION: string;
+}
+
+declare module 'react-native-snowflakes' {
+  import { ComponentType } from 'react';
+  const Snow: ComponentType<{
+    fullScreen?: boolean;
+    snowflakesCount?: number;
+    fallSpeed?: string;
+  }>;
+  export default Snow;
 }

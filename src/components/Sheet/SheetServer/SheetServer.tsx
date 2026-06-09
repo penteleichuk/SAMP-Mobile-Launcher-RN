@@ -1,7 +1,7 @@
 import { BottomSheetModal, useBottomSheetModal } from '@gorhom/bottom-sheet';
 import Lottie from 'lottie-react-native';
 import React, { useCallback } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Platform, Text, View } from 'react-native';
 import { setAlertUserName } from '../../../actions/alertActions';
 import { NetworkSvg, PeopleSvg, PlaySvg } from '../../../assets/svg';
 import { getRndInteger } from '../../../helpers';
@@ -43,6 +43,11 @@ export const SheetServerComponent = React.memo(
     const onPressPlayHandler = useCallback(async () => {
       if (userName.length < 1) {
         dispatch(setAlertUserName(true));
+      } else if (Platform.OS !== 'ios' && Platform.OS !== 'android') {
+        Alert.alert(
+          'Недоступно',
+          'Запуск игры доступен только на Android/iOS',
+        );
       } else {
         await GtaSetupModule.startGame();
       }
@@ -60,7 +65,7 @@ export const SheetServerComponent = React.memo(
             <View style={styles.headerAnims}>
               <Lottie
                 style={styles.headerAnim}
-                source={AnimsList[selectedServer]}
+                source={AnimsList[selectedServer as keyof typeof AnimsList]}
                 autoPlay
                 loop
               />

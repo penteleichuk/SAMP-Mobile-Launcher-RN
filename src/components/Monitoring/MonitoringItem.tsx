@@ -33,7 +33,9 @@ export const MonitoringItem = React.memo(
 
     const selectServerHandler = useCallback(() => {
       dispatch(setSelectServer({ selectedServer: props.id }));
-      detachedServerRef?.current?.present();
+      if (detachedServerRef && 'current' in detachedServerRef) {
+        detachedServerRef.current?.present();
+      }
     }, [props.id]);
 
     return (
@@ -47,7 +49,7 @@ export const MonitoringItem = React.memo(
               <Lottie
                 style={styles.anim}
                 resizeMode="cover"
-                source={AnimsList[props.id]}
+                source={AnimsList[props.id as keyof typeof AnimsList]}
                 autoPlay
                 loop
               />

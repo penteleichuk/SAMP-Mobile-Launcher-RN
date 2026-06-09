@@ -6,9 +6,11 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectAlertUserName } from '../../selectors/alertSelectors';
 import { AlertLauncher } from '../AlertLauncher/AlertLauncher';
 
+type Nav = { jumpTo: (name: string) => void };
+
 export const AlertUserName = React.memo(() => {
   const show = useAppSelector(selectAlertUserName);
-  const navigation = useNavigation();
+  const navigation = useNavigation() as Nav;
   const dispatch = useDispatch();
 
   const onPressCancel = useCallback(async () => {

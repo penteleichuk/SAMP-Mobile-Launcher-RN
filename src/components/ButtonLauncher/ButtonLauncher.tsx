@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  DimensionValue,
   Text,
   TouchableOpacity,
   TouchableOpacityProps,
@@ -31,7 +32,7 @@ export const ButtonLauncher = React.memo((props: ButtonLauncherType) => {
 
   const display = { display: hide ? 'none' : 'flex' } as ViewStyle;
   const backgroundColor = { backgroundColor: background };
-  const width = { width: btnWidth };
+  const width = { width: btnWidth as DimensionValue };
 
   return (
     <TouchableOpacity

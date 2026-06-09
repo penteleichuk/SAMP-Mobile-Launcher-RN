@@ -48,7 +48,7 @@ export const DonateItem = React.memo((props: DonateItemType) => {
       colors={['#a495dcc9', '#3c2c5a00']}>
       {tag > 0 && (
         <Text
-          style={[styles.badge, styles[exclusives[tag].style.split('-')[1]]]}>
+          style={[styles.badge, styles[exclusives[tag].style.split('-')[1] as keyof typeof styles]]}>          
           {' '}
           {exclusives[tag].msg}
         </Text>

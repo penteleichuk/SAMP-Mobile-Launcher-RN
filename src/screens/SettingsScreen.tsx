@@ -1,6 +1,6 @@
 import { APP_VERSION } from '@env';
 import React, { useState } from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, ScrollView, Text, View } from 'react-native';
 import { setAlertUpdatingMode } from '../actions/alertActions';
 import {
   setSettingFps,
@@ -61,10 +61,8 @@ export const SettingsScreen = React.memo(() => {
     setIsLoading(true);
 
     try {
-      const res = await dispatch(nameFileRecursion());
-      if (res) {
-        dispatch(setAlertUpdatingMode(true));
-      }
+      await dispatch(nameFileRecursion());
+      dispatch(setAlertUpdatingMode(true));
     } catch (e) {}
     dispatch(fetchModeSetting(value ? 1 : 0));
 
@@ -125,11 +123,13 @@ export const SettingsScreen = React.memo(() => {
                   value={+settings.fpscounter}
                   title={'Счётчик FPS'}
                 />
-                <SwitchLauncher
-                  onValueChange={onValueChangeKeyboard}
-                  value={+settings.androidKeyboard}
-                  title={'Android Keyboard'}
-                />
+                {Platform.OS === 'android' && (
+                  <SwitchLauncher
+                    onValueChange={onValueChangeKeyboard}
+                    value={+settings.androidKeyboard}
+                    title={'Android Keyboard'}
+                  />
+                )}
               </View>
               <View style={styles.range}>
                 <RangeLauncher
