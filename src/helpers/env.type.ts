@@ -1,3 +1,5 @@
+export {};
+
 declare module '@env' {
   export const LINK_SITE: string;
   export const LINK_VK: string;

@@ -18,6 +18,7 @@ type DistributionResponseType = DistributionResponse & {
 export type DistributionResponse = {
   cdnLauncher: string;
   cdnCache: string;
+  cacheArchiveUrl?: string;
   cacheMode: CacheType[];
   rss: string;
   versionHash: string;

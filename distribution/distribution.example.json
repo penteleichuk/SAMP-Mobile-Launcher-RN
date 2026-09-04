@@ -1,0 +1,42 @@
+{
+  "cdnLauncher": "https://your-host.com/mobile/launcher",
+  "cdnCache": "https://your-host.com/mobile/cache",
+  "cacheArchiveUrl": "https://www.dropbox.com/s/.../cache.zip?dl=1",
+  "cacheMode": [],
+  "rss": "https://your-host.com/api/launcher/news",
+  "versionHash": "example-hash-123",
+  "packageName": "com.touch.mobile.dark",
+  "projectName": "Touch Mobile Dark",
+  "servers": [
+    {
+      "id": 1,
+      "show": true,
+      "version": "1.0",
+      "icon": "https://your-host.com/mobile/image/pro_icon.jpeg",
+      "events": [
+        {
+          "title": "Акция x2",
+          "style": "red"
+        }
+      ],
+      "slot": 100,
+      "bonus": true,
+      "name": "Your SA-MP Server",
+      "description": "SA-MP Mobile",
+      "address": "188.127.241.74:3584",
+      "sampVersion": "0.3.7"
+    }
+  ],
+  "launcher": {
+    "appVersion": "0.0.16",
+    "name": "app-release.apk",
+    "hash": "your-apk-md5-hash",
+    "bytes": 12345678,
+    "size": "12 MB"
+  },
+  "filesContinue": [
+    "settings.ini",
+    "gta_sa.set",
+    "svconfig.ini"
+  ]
+}

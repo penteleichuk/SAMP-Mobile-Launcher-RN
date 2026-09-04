@@ -10,6 +10,7 @@ import {
 } from '../actions/loaderActions';
 import {
   DownloadProgressType,
+  FileArchive,
   FileDownload,
   FileName,
   FileValidate,
@@ -82,10 +83,14 @@ export const compareFileRecursion =
   };
 
 export const fetchStartDownload = (): AppThunk => async (dispatch, state) => {
-  const { cdnCache } = state().distribution;
+  const { cdnCache, cacheArchiveUrl } = state().distribution;
   const { rejectCount } = state().loader.compare;
   const { needDownload } = state().loader;
   const modeType = state().settings.modeType;
+
+  if (cacheArchiveUrl) {
+    return dispatch(downloadCacheArchive({ cacheArchiveUrl }));
+  }
 
   let numberOfDownloads = 0;
   let downloadBytes = 0;
@@ -122,7 +127,7 @@ export const fetchStartDownload = (): AppThunk => async (dispatch, state) => {
         }),
       );
 
-      const res = await FileDownload.download({
+        const res = await FileDownload.download({
         fromUrl: `${urlValid}/${toFile}/${toName}`,
         toFile,
         toName,
@@ -173,6 +178,36 @@ export const fetchStartDownload = (): AppThunk => async (dispatch, state) => {
   dispatch(fetchIsDownloadSuccess());
   return navigationRef.current?.dispatch(StackActions.replace('Main'));
 };
+
+export const downloadCacheArchive =
+  ({ cacheArchiveUrl }: { cacheArchiveUrl: string }): AppThunk =>
+  async dispatch => {
+    dispatch(createPushNotificationLoader());
+    dispatch(
+      onUploadTaskEventLoader({
+        status: 'download',
+        sizeFile: 0,
+        currentFile: 0,
+        size: 0,
+        current: 0,
+        file: 'archive',
+      }),
+    );
+
+    try {
+      await FileArchive.downloadAndExtract({
+        fromUrl: cacheArchiveUrl,
+        zipName: 'cache.zip',
+      });
+
+      dispatch(onUploadTaskEventLoader({ status: 'complete' }));
+      dispatch(fetchIsDownloadSuccess());
+      return navigationRef.current?.dispatch(StackActions.replace('Main'));
+    } catch (error) {
+      dispatch(onUploadTaskEventLoader({ status: 'complete' }));
+      return navigationRef.current?.dispatch(StackActions.replace('Error'));
+    }
+  };
 
 export const nameFileRecursion = (): AppThunk => async (dispatch, state) => {
   const cacheMode = state().distribution.cacheMode;

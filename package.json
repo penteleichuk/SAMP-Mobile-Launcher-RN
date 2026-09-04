@@ -33,6 +33,7 @@
     "react-native-gesture-handler": "^2.8.0",
     "react-native-gpu-info": "https://github.com/vasyok28/react-native-gpu-info",
     "react-native-linear-gradient": "^2.6.2",
+    "react-native-zip-archive": "^7.1.0",
     "react-native-progress": "^5.0.0",
     "react-native-quick-base64": "^2.0.5",
     "react-native-reanimated": "^2.12.0",
