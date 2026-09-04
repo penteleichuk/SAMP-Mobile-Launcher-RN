@@ -11,7 +11,6 @@
     "node": "16.15.1"
   },
   "dependencies": {
-    "crypto": "^1.0.1",
     "glob": "^8.0.3"
   },
   "author": "vasyok28",

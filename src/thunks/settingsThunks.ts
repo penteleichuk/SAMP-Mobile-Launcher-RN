@@ -30,7 +30,7 @@ const toPatch = FilePath.getPathDirSetting();
 export const fetchInitialSettings = (): AppThunk => async dispatch => {
   try {
     const res = await RNFS.readFile(toPatch, 'utf8');
-    let resParse = parseINIString(res) as SettingType;
+    let resParse = parseINIString(res) as unknown as SettingType;
 
     const name = resParse.client?.name ?? '';
     const fps = resParse.gui?.fps ?? 40;
@@ -65,7 +65,7 @@ export const fetchUserNameSetting =
   async () => {
     try {
       const res = await RNFS.readFile(toPatch, 'utf8');
-      let resParse = parseINIString(res) as { client: { name: string } };
+      let resParse = parseINIString(res) as unknown as { client: { name: string } };
 
       resParse = {
         ...resParse,
@@ -81,7 +81,7 @@ export const fetchFpsSetting =
   async () => {
     try {
       const res = await RNFS.readFile(toPatch, 'utf8');
-      let resParse = parseINIString(res) as { gui: { fps: number } };
+      let resParse = parseINIString(res) as unknown as { gui: { fps: number } };
 
       resParse = { ...resParse, gui: { ...resParse.gui, fps: value } };
 
@@ -94,7 +94,7 @@ export const fetchPageSizeSetting =
   async () => {
     try {
       const res = await RNFS.readFile(toPatch, 'utf8');
-      let resParse = parseINIString(res) as {
+      let resParse = parseINIString(res) as unknown as {
         gui: { ChatMaxMessages: number };
       };
 
@@ -112,7 +112,7 @@ export const fetchGraphicSetting =
   async () => {
     try {
       const res = await RNFS.readFile(toPatch, 'utf8');
-      let resParse = parseINIString(res) as { gui: { graphic: number } };
+      let resParse = parseINIString(res) as unknown as { gui: { graphic: number } };
 
       resParse = {
         ...resParse,
@@ -128,7 +128,7 @@ export const fetchFPSSetting =
   async () => {
     try {
       const res = await RNFS.readFile(toPatch, 'utf8');
-      let resParse = parseINIString(res) as { gui: { fpscounter: number } };
+      let resParse = parseINIString(res) as unknown as { gui: { fpscounter: number } };
 
       resParse = {
         ...resParse,
@@ -144,7 +144,7 @@ export const fetchKeyboardSetting =
   async () => {
     try {
       const res = await RNFS.readFile(toPatch, 'utf8');
-      let resParse = parseINIString(res) as {
+      let resParse = parseINIString(res) as unknown as {
         gui: { androidKeyboard: number };
       };
 
@@ -162,7 +162,7 @@ export const fetchServerIdSetting =
   async () => {
     try {
       const res = await RNFS.readFile(toPatch, 'utf8');
-      let resParse = parseINIString(res) as { server: { serverid: number } };
+      let resParse = parseINIString(res) as unknown as { server: { serverid: number } };
 
       resParse = {
         ...resParse,

@@ -9,7 +9,7 @@ type QueryType = {
 };
 
 export type QueryTypeResponse = {
-  passworded: string;
+  passworded: number;
   players: number;
   maxplayers: number;
   hostname: string;
@@ -50,15 +50,15 @@ export const getServerQuery = async (
         });
       });
 
-      socket.on('message', function (message) {
+      (socket as any).on('message', function (message: Buffer) {
         if (controller) {
           clearTimeout(controller);
         }
 
         message = message.slice(11);
 
-        let object = {
-          passworded: '',
+        let object: QueryTypeResponse = {
+          passworded: 0,
           players: 0,
           maxplayers: 0,
           hostname: '',

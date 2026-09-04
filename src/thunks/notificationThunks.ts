@@ -1,4 +1,5 @@
 import { PACKAGE_NAME, PROJECT_NAME } from '@env';
+import { Platform } from 'react-native';
 import notifee, { AndroidImportance } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 import { AppThunk } from '../store/store';
@@ -7,31 +8,38 @@ export const appRegisterDeviceForRemoteMessages = (): AppThunk => async () => {
   await notifee.requestPermission();
   await messaging().registerDeviceForRemoteMessages();
 
-  return await notifee.createChannel({
-    id: PACKAGE_NAME + '-default',
-    name: PROJECT_NAME + ' Chanel',
-    importance: AndroidImportance.HIGH,
-  });
+  if (Platform.OS === 'android') {
+    return await notifee.createChannel({
+      id: PACKAGE_NAME + '-default',
+      name: PROJECT_NAME + ' Chanel',
+      importance: AndroidImportance.HIGH,
+    });
+  }
 };
 
 export const createPushNotificationLoader = (): AppThunk => async dispatch => {
   dispatch(onUploadTaskEventLoader({ status: 'cancel' }));
 
-  return await notifee.createChannel({
-    id: PACKAGE_NAME + '-notification',
-    name: PROJECT_NAME + ' Chanel',
-  });
+  if (Platform.OS === 'android') {
+    return await notifee.createChannel({
+      id: PACKAGE_NAME + '-notification',
+      name: PROJECT_NAME + ' Chanel',
+    });
+  }
 };
 
 export const onUploadTaskEventLoader =
-  (event): AppThunk =>
+  (event: any): AppThunk =>
   async () => {
     if (event.status === 'download') {
-      await notifee.displayNotification({
+      const notification: any = {
         id: PACKAGE_NAME + '-notification',
         body: `${event.file} [${event.sizeFile} из ${event.currentFile}]`,
         title: 'Загрузка файлов игры...',
-        android: {
+      };
+
+      if (Platform.OS === 'android') {
+        notification.android = {
           channelId: PACKAGE_NAME + '-notification',
           ongoing: true,
           onlyAlertOnce: true,
@@ -41,16 +49,21 @@ export const onUploadTaskEventLoader =
             max: event.current,
             current: event.size,
           },
-        },
-      });
+        };
+      }
+
+      await notifee.displayNotification(notification);
     }
 
     if (event.status === 'complete') {
-      await notifee.displayNotification({
+      const notification: any = {
         id: PACKAGE_NAME + '-notification',
         body: ' ',
         title: 'Загрузка файлов завершена',
-        android: {
+      };
+
+      if (Platform.OS === 'android') {
+        notification.android = {
           channelId: PACKAGE_NAME + '-notification',
           ongoing: true,
           onlyAlertOnce: false,
@@ -60,8 +73,10 @@ export const onUploadTaskEventLoader =
             max: 100,
             current: 100,
           },
-        },
-      });
+        };
+      }
+
+      await notifee.displayNotification(notification);
     }
 
     if (event.status === 'cancel') {
